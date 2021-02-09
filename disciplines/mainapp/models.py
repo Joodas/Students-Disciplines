@@ -3,6 +3,7 @@ from django.db import models
 
 class Group(models.Model):
     group_name = models.CharField(max_length=255, verbose_name='Группа')
+    slug = models.SlugField(unique=True)
 
     def __str__(self):
         return self.group_name

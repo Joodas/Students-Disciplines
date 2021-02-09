@@ -2,13 +2,17 @@ from django.shortcuts import render
 from django.views.generic import View
 from django.db.models import Avg
 
-from .models import Mark, Discipline
+from .models import Mark, Discipline, Group
 
 
 class BaseView(View):
     def get(self, request):
         disciplines = Discipline.objects.all()
-        context = {'disciplines': disciplines}
+        groups = Group.objects.all()
+        context = {
+            'disciplines': disciplines,
+            'groups': groups,
+        }
         return render(request, 'base.html', context)
 
 

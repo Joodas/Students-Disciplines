@@ -7,7 +7,12 @@
 <body>
  <h2>Список дисциплин студентов</h2>
 <ul>
-    {% for i in disciplines %}
+    {% for d in disciplines %}
+        <li><a href="{{d.slug}}_marks/"> {{ d.discipline_name }} </a></li>
+    {% endfor %}
+</ul>
+<ul>
+    {% for g in groups %}
         <li><a href="{{i.slug}}_marks/"> {{ i.discipline_name }} </a></li>
     {% endfor %}
 </ul>
