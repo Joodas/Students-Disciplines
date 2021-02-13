@@ -6,7 +6,8 @@ from .models import Mark, Discipline, Group, Student
 
 
 class BaseView(View):
-    def get(self, request):
+    @staticmethod
+    def get(request):
         disciplines = Discipline.objects.all()
         groups = Group.objects.all()
         context = {
@@ -36,15 +37,19 @@ class MarksManagerByGroup(View):
         group_slug = kwargs.get('slug')
         group = Group.objects.get(slug=group_slug)
         students = Student.objects.filter(group=group)
-        marks = []
+        mark = []
         disciplines = []
+        mark_avg = []
         for student in students:
-            mark_ = Mark.objects.get(student=student)
-            marks.append(mark_.mark)
-            disciplines.append(mark_.discipline)
+            mark_ = Mark.objects.all().filter(student=student)
+            mark_avg_ = mark_.aggregate(average_mark=Avg('mark'))
+            mark.append(mark_)
+            mark_avg.append(mark_avg_)
+            disciplines.append(mark_)
         context = {
             'student': students,
-            'disciplines': disciplines,
-            'mark': marks,
+            'mark': mark,
+            'disciplines': list(set(disciplines)),
+            'mark_avg': mark_avg,
         }
         return render(request, 'marks_by_group.html', context)

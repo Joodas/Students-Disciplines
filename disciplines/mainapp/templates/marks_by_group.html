@@ -1,20 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+
+<table class="table">
+  <tbody>
     {% for d in disciplines %}
-        {{ d }}
+    <tr><td> {{ d }} </td></tr>
     {% endfor %}
-
-        {% for s in student %}
-        {{ s }}
+    {% for s in student %}
+    <tr>
+        <td> {{ s }} </td>
+    </tr>
     {% endfor %}
-
     {% for m in mark %}
-        {{ m }}
+    <tr>
+        <td> {{ m }} </td>
+    </tr>
     {% endfor %}
-</body>
+    <tr>
+        <td> Средний балл </td>
+        {% for m in mark_avg %}
+        <td> {{ m.average_mark }} </td>
+    {% endfor %}
+    </tr>
+  </tbody>
+</table>
 </html>
