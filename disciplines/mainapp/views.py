@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import View
 from django.db.models import Avg
 
-from .models import Mark, Discipline, Group
+from .models import Mark, Discipline, Group, Student
 
 
 class BaseView(View):
@@ -16,7 +16,7 @@ class BaseView(View):
         return render(request, 'base.html', context)
 
 
-class MarksManager(View):
+class MarksManagerByDiscipline(View):
     @staticmethod
     def get(request, **kwargs):
         discipline_slug = kwargs.get('slug')
@@ -28,3 +28,20 @@ class MarksManager(View):
             'avg_marks': avg_marks,
         }
         return render(request, 'discipline_marks.html', context)
+
+
+class MarksManagerByGroup(View):
+    @staticmethod
+    def get(request, **kwargs):
+        group_slug = kwargs.get('slug')
+        group = Group.objects.get(slug=group_slug)
+        students = Student.objects.filter(group=group)
+        mark = []
+        for student in students:
+            mark_ = Mark.objects.get(student=student)
+            mark.append(mark_.mark)
+        context = {
+            'student': students,
+            'mark': mark,
+        }
+        return render(request, 'marks_by_group.html', context)

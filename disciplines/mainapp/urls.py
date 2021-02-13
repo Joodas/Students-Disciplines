@@ -1,8 +1,9 @@
 from django.urls import path
 
-from .views import MarksManager, BaseView
+from .views import MarksManagerByDiscipline, BaseView, MarksManagerByGroup
 
 urlpatterns = [
     path('', BaseView.as_view(), name='base'),
-    path('<str:slug>_marks/', MarksManager.as_view(), name='discipline_marks'),
+    path('<str:slug>_marks/', MarksManagerByDiscipline.as_view(), name='discipline_marks'),
+    path('group_<str:slug>/', MarksManagerByGroup.as_view(), name='group_marks'),
 ]
