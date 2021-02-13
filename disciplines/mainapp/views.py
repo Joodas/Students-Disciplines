@@ -36,12 +36,15 @@ class MarksManagerByGroup(View):
         group_slug = kwargs.get('slug')
         group = Group.objects.get(slug=group_slug)
         students = Student.objects.filter(group=group)
-        mark = []
+        marks = []
+        disciplines = []
         for student in students:
             mark_ = Mark.objects.get(student=student)
-            mark.append(mark_.mark)
+            marks.append(mark_.mark)
+            disciplines.append(mark_.discipline)
         context = {
             'student': students,
-            'mark': mark,
+            'disciplines': disciplines,
+            'mark': marks,
         }
         return render(request, 'marks_by_group.html', context)

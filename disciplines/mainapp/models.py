@@ -21,6 +21,7 @@ class Student(models.Model):
 class Discipline(models.Model):
     discipline_name = models.CharField(max_length=255, verbose_name='Название дисциплины')
     slug = models.SlugField(unique=True, default=None)
+    #group = models.ForeignKey(Group, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.discipline_name
