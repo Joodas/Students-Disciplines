@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Оценки по дисциплине</title>
-</head>
-<body>
+<table class="table">
+  <tbody>
     {% for i in marks %}
-        {{ i.mark }}
+        <tr><td> {{ i.student }} </td>
+            <td> {{ i.mark }} </td></tr>
     {% endfor %}
-</body>
+    <tr>
+        <td> Средний балл </td>
+        <td> {{ avg_marks.mark__avg }} </td>
+    </tr>
+  </tbody>
+</table>
 </html>
