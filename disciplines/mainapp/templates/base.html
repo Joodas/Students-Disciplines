@@ -5,12 +5,14 @@
     <title>Список дисциплин студентов</title>
 </head>
 <body>
- <h2>Список дисциплин студентов</h2>
+ <h2>Список баллов студентов</h2>
+ <h3>По пердметам</h3>
 <ul>
     {% for d in disciplines %}
         <li><a href="{{d.slug}}_marks/"> {{ d.discipline_name }} </a></li>
     {% endfor %}
 </ul>
+ <h3>По группам</h3>
 <ul>
     {% for g in groups %}
         <li><a href="group_{{g.slug}}/"> {{ g.group_name }} </a></li>

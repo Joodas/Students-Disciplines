@@ -35,9 +35,47 @@ class Mark(models.Model):
         return '{} {} {}'.format(self.student, self.discipline, self.mark)
 
 
-class StudentList(models.Model):
-    group = models.ForeignKey(Group, verbose_name='Группа', on_delete=models.CASCADE)
-    student = models.ManyToManyField(Student)
+class Staff(models.Model):
 
-    def __str__(self):
-        return 'Список группы {}'.format(self.group)
+    class Meta:
+        abstract = True
+
+    first_name = models.CharField(max_length=255, default=None)
+    last_name = models.CharField(max_length=255, default=None)
+
+    def show(self):
+        return '{} {}'.format(self.first_name, self.last_name)
+
+
+TEACHER = 'Учитель'
+VISITOR = 'Посетитель'
+POSTGRADUATE = 'Аспирант'
+
+
+class Teacher(Staff):
+    status = TEACHER
+
+    def show(self):
+        return '{} {} {}'.format(self.first_name, self.last_name, self.status)
+
+
+class Postgraduate(Staff):
+    status = POSTGRADUATE
+
+    def show(self):
+        return '{} {} {}'.format(self.first_name, self.last_name, self.status)
+
+
+class Generator:
+    def create_staff(self, type_name):
+        raise NotImplementedError()
+
+
+class StaffGenerator(Generator):
+    def create_staff(self, type_name):
+        if type_name == 'teacher':
+            new_teacher = Teacher()
+            return new_teacher
+        elif type_name == 'postgraduate':
+            new_postgraduate = Postgraduate()
+            return new_postgraduate

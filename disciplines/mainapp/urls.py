@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import MarksManagerByDiscipline, BaseView, MarksManagerByGroup
+from .views import BaseView, MarksManagerByDiscipline, MarksManagerByGroup
 
 urlpatterns = [
     path('', BaseView.as_view(), name='base'),
