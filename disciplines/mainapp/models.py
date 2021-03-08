@@ -64,18 +64,3 @@ class Postgraduate(Staff):
 
     def show(self):
         return '{} {} {}'.format(self.first_name, self.last_name, self.status)
-
-
-class Generator:
-    def create_staff(self, type_name):
-        raise NotImplementedError()
-
-
-class StaffGenerator(Generator):
-    def create_staff(self, type_name):
-        if type_name == 'teacher':
-            new_teacher = Teacher()
-            return new_teacher
-        elif type_name == 'postgraduate':
-            new_postgraduate = Postgraduate()
-            return new_postgraduate
