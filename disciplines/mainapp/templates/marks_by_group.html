@@ -1,23 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+  <header class="bg-primary text-white">
+      <h1 class="text-center">Баллы группы {{ group }}</h1>
+  </header>
 <table class="table">
   <tbody>
     {% for d in discipline %}
-    <tr><td> {{ d }} </td></tr>
+    <tr><td> {{ d.discipline }} </td></tr>
     {% endfor %}
     {% for s in student %}
     <tr>
         <td> {{ s }} </td>
     </tr>
     {% endfor %}
-    {% for m in marks %}
-    <tr>
-        <td> {{ m }} </td>
-    </tr>
-    {% endfor %}
+
     <tr>
         <td> Средний балл </td>
         {% for m in mark_avg %}
-        <td> {{ m.average_mark }} </td>
+        <td> {{ m }} </td>
     {% endfor %}
     </tr>
   </tbody>
 </table>
+{% endblock content %}

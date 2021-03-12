@@ -1,5 +1,9 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block content %}
 <html lang="ru">
+  <header class="bg-primary text-white">
+      <h1 class="text-center">Баллы студентов по предмету {{ discipline }}</h1>
+  </header>
 <table class="table">
   <tbody>
     {% for i in marks %}
@@ -8,9 +12,9 @@
     {% endfor %}
     <tr>
         <td> Средний балл </td>
-        <td> {{ avg_marks.mark__avg }} </td>
-        {{slug}}
+        <td> {{ avg_marks }} </td>
     </tr>
   </tbody>
 </table>
 </html>
+{% endblock content %}
