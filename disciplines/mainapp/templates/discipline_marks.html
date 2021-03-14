@@ -5,12 +5,18 @@
       <h1 class="text-center">Баллы студентов по предмету {{ discipline }}</h1>
   </header>
 <table class="table">
+    <thead>
+    <tr class="first-table-row">
+        <th scope="col">Студент</th>
+        <th scope="col">Оценка</th>
+    </tr>
+    </thead>
   <tbody>
     {% for i in marks %}
         <tr><td> {{ i.student }} </td>
             <td> {{ i.mark }} </td></tr>
     {% endfor %}
-    <tr>
+    <tr class="bg-primary text-white">
         <td> Средний балл </td>
         <td> {{ avg_marks }} </td>
     </tr>

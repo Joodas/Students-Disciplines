@@ -1,3 +1,5 @@
+from itertools import zip_longest
+
 from django.shortcuts import render
 from django.views.generic import View
 
@@ -39,21 +41,20 @@ class MarksManagerByGroup(View):
         group_slug = kwargs.get('slug')
         group = Group.objects.get(slug=group_slug)
         students = Student.objects.filter(group=group)
-        mark = []
         disciplines = []
-        mark_avg = []
-        # TODO add disciplines n mark fields to theirs arrays
-        # then it can be called from template by attribute name
+        mark = []
         for student in students:
+            mark_avg = []
             mark_ = Mark.objects.filter(student=student)
-            mark = mark_.values_list('mark', flat=True)
-            disciplines = mark_.defer('discipline')
+            mark += mark_.values_list('mark', flat=True)
+            disciplines += mark_
             mark_avg.append(Query.get_query(mark, 'Median'))
         context = {
             'group': group,
             'student': students,
+            'disciplines': disciplines,
             'mark': mark,
-            'discipline': disciplines,
             'mark_avg': mark_avg,
         }
+        print(context)
         return render(request, 'marks_by_group.html', context)
