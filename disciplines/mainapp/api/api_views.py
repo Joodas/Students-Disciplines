@@ -1,4 +1,4 @@
-from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView, ListCreateAPIView, RetrieveUpdateAPIView
 from rest_framework.filters import SearchFilter
 from rest_framework.pagination import PageNumberPagination
 
@@ -47,11 +47,12 @@ class MarkPagination(PageNumberPagination):
     max_page_size = 200
 
 
-class MarkListAPIView(ListAPIView):
+class MarkAPIView(ListCreateAPIView, RetrieveUpdateAPIView):
 
     serializer_class = MarkSerializer
     pagination_class = MarkPagination
     queryset = Mark.objects.all()
+    lookup_field = 'id'
     filter_backends = [SearchFilter]
     search_fields = ['student', 'discipline']
 

@@ -44,7 +44,7 @@ class MarkSerializer(serializers.ModelSerializer):
 
     student = serializers.PrimaryKeyRelatedField(queryset=Student.objects)
     discipline = serializers.PrimaryKeyRelatedField(queryset=Discipline.objects)
-    mark = serializers.IntegerField(required=False)
+    mark = serializers.IntegerField(required=True)
 
     class Meta:
         model = Mark
