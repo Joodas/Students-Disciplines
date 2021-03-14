@@ -21,6 +21,7 @@ class PostgraduateFactory(factory.django.DjangoModelFactory):
 
 
 class Fabric:
+
     def concrete_factory(self,
                          factory_type,
                          first_name='',
@@ -29,6 +30,7 @@ class Fabric:
 
 
 class FactoryManager(Fabric):
+
     def concrete_factory(self,
                          factory_type,
                          first_name='',

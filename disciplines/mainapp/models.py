@@ -1,7 +1,19 @@
 from django.db import models
 
 
+TEACHER = 'Учитель'
+VISITOR = 'Посетитель'
+POSTGRADUATE = 'Аспирант'
+
+STATUS_CHOICES = [
+    (TEACHER, 'Teacher'),
+    (VISITOR, 'Visitor'),
+    (POSTGRADUATE, 'Postgraduate')
+]
+
+
 class Group(models.Model):
+
     group_name = models.CharField(max_length=255, verbose_name='Группа')
     slug = models.SlugField(unique=True, default=None)
 
@@ -10,6 +22,7 @@ class Group(models.Model):
 
 
 class Student(models.Model):
+
     group = models.ForeignKey(Group, verbose_name='Группа', on_delete=models.CASCADE)
     first_name = models.CharField(max_length=255, verbose_name='Имя')
     last_name = models.CharField(max_length=255, verbose_name='Фамилия')
@@ -19,6 +32,7 @@ class Student(models.Model):
 
 
 class Discipline(models.Model):
+
     discipline_name = models.CharField(max_length=255, verbose_name='Название дисциплины')
     slug = models.SlugField(unique=True, default=None)
 
@@ -27,6 +41,7 @@ class Discipline(models.Model):
 
 
 class Mark(models.Model):
+
     student = models.ForeignKey(Student, verbose_name='Студент', on_delete=models.CASCADE)
     discipline = models.ForeignKey(Discipline, verbose_name='Предмет', on_delete=models.CASCADE)
     mark = models.PositiveIntegerField(default=0)
@@ -47,20 +62,17 @@ class Staff(models.Model):
         return '{} {}'.format(self.first_name, self.last_name)
 
 
-TEACHER = 'Учитель'
-VISITOR = 'Посетитель'
-POSTGRADUATE = 'Аспирант'
-
-
 class Teacher(Staff):
-    status = TEACHER
+
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=TEACHER)
 
     def show(self):
         return '{} {} {}'.format(self.first_name, self.last_name, self.status)
 
 
 class Postgraduate(Staff):
-    status = POSTGRADUATE
+
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=POSTGRADUATE)
 
     def show(self):
         return '{} {} {}'.format(self.first_name, self.last_name, self.status)

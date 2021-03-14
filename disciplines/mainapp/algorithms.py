@@ -2,11 +2,13 @@ from statistics import median
 
 
 class Average:
+
     def calculate_avg(self, array):
         raise NotImplementedError()
 
 
 class Arithmetic(Average):
+
     def calculate_avg(self, array):
         length = len(array)
         summary = sum(array)
@@ -15,12 +17,14 @@ class Arithmetic(Average):
 
 
 class Median(Average):
+
     def calculate_avg(self, array):
         avg = float(median(array))
         return avg
 
 
 class Query:
+
     @staticmethod
     def get_query(array, strategy):
         global algorithm

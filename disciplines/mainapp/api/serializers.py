@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from ..models import Discipline, Group, Student, Mark
+from ..models import Discipline, Group, Student, Mark, Teacher, Postgraduate
 
 
 class DisciplineSerializer(serializers.ModelSerializer):
@@ -44,10 +44,30 @@ class MarkSerializer(serializers.ModelSerializer):
 
     student = serializers.PrimaryKeyRelatedField(queryset=Student.objects)
     discipline = serializers.PrimaryKeyRelatedField(queryset=Discipline.objects)
-    mark = serializers.IntegerField(allow_null=True)
+    mark = serializers.IntegerField(required=False)
 
     class Meta:
         model = Mark
         fields = [
             'id', 'student', 'discipline', 'mark',
         ]
+
+
+class BaseStaffSerializer:
+
+    first_name = serializers.CharField(required=True)
+    last_name = serializers.CharField(required=True)
+
+
+class TeacherSerializer(BaseStaffSerializer, serializers.ModelSerializer):
+
+    class Meta:
+        model = Teacher
+        fields = '__all__'
+
+
+class PostgraduateSerializer(BaseStaffSerializer, serializers.ModelSerializer):
+
+    class Meta:
+        model = Postgraduate
+        fields = '__all__'
