@@ -1,5 +1,3 @@
-from itertools import zip_longest
-
 from django.shortcuts import render
 from django.views.generic import View
 
@@ -38,6 +36,7 @@ class MarksManagerByDiscipline(View):
 class MarksManagerByGroup(View):
     @staticmethod
     def get(request, **kwargs):
+        global mark_avg
         group_slug = kwargs.get('slug')
         group = Group.objects.get(slug=group_slug)
         students = Student.objects.filter(group=group)
