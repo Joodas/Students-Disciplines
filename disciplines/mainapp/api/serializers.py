@@ -1,6 +1,6 @@
-from rest_framework import serializers
+from rest_framework import serializers, versioning
 
-from ..models import Discipline, Group, Student, Mark, Teacher, Postgraduate
+from ..models import Discipline, Group, Student, Mark, Teacher
 
 
 class DisciplineSerializer(serializers.ModelSerializer):
@@ -63,11 +63,4 @@ class TeacherSerializer(BaseStaffSerializer, serializers.ModelSerializer):
 
     class Meta:
         model = Teacher
-        fields = '__all__'
-
-
-class PostgraduateSerializer(BaseStaffSerializer, serializers.ModelSerializer):
-
-    class Meta:
-        model = Postgraduate
         fields = '__all__'

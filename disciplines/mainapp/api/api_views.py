@@ -8,25 +8,27 @@ from .serializers import (
     StudentSerializer,
     MarkSerializer,
     TeacherSerializer,
-    PostgraduateSerializer,
 )
-from ..models import Discipline, Group, Student, Mark, Teacher, Postgraduate
+from ..models import Discipline, Group, Student, Mark, Teacher
+
+
+# TODO: причесать api
+# докрутить crud для основных сущностей
+# кэширование
+# hypermedia ссылки
 
 
 class DisciplineListAPIView(ListAPIView):
-
     serializer_class = DisciplineSerializer
     queryset = Discipline.objects.all()
 
 
 class GroupListAPIView(ListAPIView):
-
     serializer_class = GroupSerializer
     queryset = Group.objects.all()
 
 
 class StudentListAPIView(ListAPIView):
-
     serializer_class = StudentSerializer
     queryset = Student.objects.all()
     filter_backends = [SearchFilter]
@@ -34,21 +36,18 @@ class StudentListAPIView(ListAPIView):
 
 
 class StudentRetrieveAPIView(RetrieveAPIView):
-
     serializer_class = StudentSerializer
     queryset = Student.objects.all()
     lookup_field = 'id'
 
 
 class MarkPagination(PageNumberPagination):
-
     page_size = 20
     page_query_param = 'page_size'
     max_page_size = 200
 
 
 class MarkAPIView(ListCreateAPIView, RetrieveUpdateAPIView):
-
     serializer_class = MarkSerializer
     pagination_class = MarkPagination
     queryset = Mark.objects.all()
@@ -58,12 +57,5 @@ class MarkAPIView(ListCreateAPIView, RetrieveUpdateAPIView):
 
 
 class TeacherListAPIView(ListAPIView):
-
     serializer_class = TeacherSerializer
     queryset = Teacher.objects.all()
-
-
-class PostgraduateListAPIView(ListAPIView):
-
-    serializer_class = PostgraduateSerializer
-    queryset = Postgraduate.objects.all()

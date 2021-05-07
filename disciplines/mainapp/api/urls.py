@@ -6,17 +6,16 @@ from .api_views import (
     StudentListAPIView,
     MarkAPIView,
     TeacherListAPIView,
-    PostgraduateListAPIView,
     StudentRetrieveAPIView,
 )
 
 
 urlpatterns = [
     path('disciplines/', DisciplineListAPIView.as_view(), name='disciplines'),
-    path('group/', GroupListAPIView.as_view(), name='group'),
-    path('student/', StudentListAPIView.as_view(), name='student_list'),
-    path('mark/<str:id>/', MarkAPIView.as_view(), name='mark'),
-    path('teacher/', TeacherListAPIView.as_view(), name='teacher'),
-    path('postgraduate/', PostgraduateListAPIView.as_view(), name='postgraduate'),
-    path('student/<str:id>/', StudentRetrieveAPIView.as_view(), name='student'),
+    path('groups/', GroupListAPIView.as_view(), name='groups'),
+    path('marks/<str:id>/', MarkAPIView.as_view(), name='marks'),
+    path('marks/', MarkAPIView.as_view(), name='marks'),
+    path('teachers/', TeacherListAPIView.as_view(), name='teachers'),
+    path('students/<str:id>/', StudentRetrieveAPIView.as_view(), name='students'),
+    path('students/', StudentListAPIView.as_view(), name='students_list'),
 ]
