@@ -1,6 +1,6 @@
-from rest_framework.generics import ListAPIView, RetrieveAPIView, ListCreateAPIView, RetrieveUpdateAPIView
 from rest_framework.filters import SearchFilter
 from rest_framework.pagination import PageNumberPagination
+from rest_framework import permissions, viewsets
 
 from .serializers import (
     DisciplineSerializer,
@@ -13,32 +13,8 @@ from ..models import Discipline, Group, Student, Mark, Teacher
 
 
 # TODO: причесать api
-# докрутить crud для основных сущностей
 # кэширование
 # hypermedia ссылки
-
-
-class DisciplineListAPIView(ListAPIView):
-    serializer_class = DisciplineSerializer
-    queryset = Discipline.objects.all()
-
-
-class GroupListAPIView(ListAPIView):
-    serializer_class = GroupSerializer
-    queryset = Group.objects.all()
-
-
-class StudentListAPIView(ListAPIView):
-    serializer_class = StudentSerializer
-    queryset = Student.objects.all()
-    filter_backends = [SearchFilter]
-    search_fields = ['group']
-
-
-class StudentRetrieveAPIView(RetrieveAPIView):
-    serializer_class = StudentSerializer
-    queryset = Student.objects.all()
-    lookup_field = 'id'
 
 
 class MarkPagination(PageNumberPagination):
@@ -47,15 +23,49 @@ class MarkPagination(PageNumberPagination):
     max_page_size = 200
 
 
-class MarkAPIView(ListCreateAPIView, RetrieveUpdateAPIView):
+class Permission(permissions.BasePermission):
+
+    def has_permission(self, request, view):
+        if view.action in ['list', 'retrieve']:
+            return True
+        elif view.action in ['create', 'update', 'partial_update', 'destroy']:
+            return request.user.is_superuser
+        else:
+            return False
+
+
+class TeacherViewSet(viewsets.ModelViewSet):
+    serializer_class = TeacherSerializer
+    queryset = Teacher.objects.all()
+    permission_classes = [Permission, ]
+
+
+class MarkViewSet(viewsets.ModelViewSet):
     serializer_class = MarkSerializer
     pagination_class = MarkPagination
     queryset = Mark.objects.all()
     lookup_field = 'id'
     filter_backends = [SearchFilter]
     search_fields = ['student', 'discipline']
+    permission_classes = [Permission, ]
 
 
-class TeacherListAPIView(ListAPIView):
-    serializer_class = TeacherSerializer
-    queryset = Teacher.objects.all()
+class StudentViewSet(viewsets.ModelViewSet):
+    serializer_class = StudentSerializer
+    queryset = Student.objects.all()
+    filter_backends = [SearchFilter]
+    lookup_field = 'id'
+    search_fields = ['group']
+    permission_classes = [Permission, ]
+
+
+class DisciplineViewSet(viewsets.ModelViewSet):
+    serializer_class = DisciplineSerializer
+    queryset = Discipline.objects.all()
+    permission_classes = [Permission, ]
+
+
+class GroupViewSet(viewsets.ModelViewSet):
+    serializer_class = GroupSerializer
+    queryset = Group.objects.all()
+    permission_classes = [Permission, ]
