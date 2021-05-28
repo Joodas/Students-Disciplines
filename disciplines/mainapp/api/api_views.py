@@ -1,6 +1,8 @@
 from rest_framework.filters import SearchFilter
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import permissions, viewsets
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 from .serializers import (
     DisciplineSerializer,
@@ -10,11 +12,6 @@ from .serializers import (
     TeacherSerializer,
 )
 from ..models import Discipline, Group, Student, Mark, Teacher
-
-
-# TODO: причесать api
-# кэширование
-# hypermedia ссылки
 
 
 class MarkPagination(PageNumberPagination):
@@ -69,3 +66,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     serializer_class = GroupSerializer
     queryset = Group.objects.all()
     permission_classes = [Permission, ]
+
+    @method_decorator(cache_page(60))
+    def dispatch(self, *args, **kwargs):
+        return super(GroupViewSet, self).dispatch(*args, **kwargs)
